@@ -24,7 +24,7 @@ contract Event{
     function addToMap(uint8 _value, string memory _string) onlyCreator public (returns bool){
         map[_value] = _string;
         
-        event mapValueAdded(msg.sender, _value, _string); // trigger the event
+        emit mapValueAdded(msg.sender, _value, _string); // trigger the event
         
         return true;
     }
