@@ -1,7 +1,7 @@
 pragma solidity ^0.5.12;
 
 /**
- * @title Voing contract for a Dapp
+ * @title Voting contract for a Dapp
  * @author Ilias El Abbassi, iliaselabbassi@outlook.fr
  **/
  
@@ -29,7 +29,6 @@ contract Voting{
     constructor() public{
         owner = msg.sender;
         state = State.INIT;
-        
     }
     
     modifier ownerOnly() {
@@ -68,7 +67,7 @@ contract Voting{
         return true;
     }
     
-    function vote(address _candidat, uint _value) public returns(bool sucess){
+   /** function vote(address _candidat, uint _value) public returns(bool sucess){
         require(state == State.STARTED, "you can only vote duting the voting period");
         require(voters[msg.sender].alreadyVoted == false, "you can't vote");
         require(voters[msg.sender].voteBalance >= _value, "not enought vote balance");
@@ -81,7 +80,7 @@ contract Voting{
             voters[msg.sender].alreadyVoted = true;
         
         return true;
-    }
+    } */
     
     function addCandidat(address _addr, string memory _name) public ownerOnly returns(bool sucess) {
         require(state == State.INIT, "you can only add a candidat in the initial part");
@@ -93,7 +92,7 @@ contract Voting{
         return true;
     }
     
-    function giveVote(uint _value, address _addr) public returns(bool sucess) {
+    /**function giveVote(uint _value, address _addr) public returns(bool sucess) {
         require(state == State.STARTED, "you can only give vote during the voting period");
         require(voters[msg.sender].voteBalance > _value, "you can only give an amount of vote that you have");
         
@@ -103,6 +102,6 @@ contract Voting{
     
         return true;
     
-    }
+    } */
     
 }
