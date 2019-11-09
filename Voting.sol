@@ -1,7 +1,7 @@
 pragma solidity ^0.5.12;
 
 /**
- * @title A tokken called TURTLE
+ * @title Voing contract for a Dapp
  * @author Ilias El Abbassi, iliaselabbassi@outlook.fr
  **/
  
@@ -23,6 +23,7 @@ contract Voting{
     address public owner;
     mapping(address => Voter) public voters;
     mapping(address => Candidat) public candidats;
+    address[] public candidatsAddress;
     State public state;
     
     constructor() public{
@@ -33,11 +34,6 @@ contract Voting{
     
     modifier ownerOnly() {
         require(msg.sender == owner, "you can't do this action");
-        _;
-    }
-    
-    modifier checkVote() {
-        require(/**(voters[msg.sender].voteBalance > 0) &&*/ (voters[msg.sender].alreadyVoted == false), "you can't vote");
         _;
     }
     
@@ -61,7 +57,7 @@ contract Voting{
         return true;
     }
     
-    function vote(address _candidat) public checkVote returns(bool sucess){
+    function vote(address _candidat) public returns(bool sucess){
         require(state == State.STARTED, "you can only vote duting the voting period");
         require(voters[msg.sender].alreadyVoted == false, "you can't vote");
         require(candidats[_candidat].exist == true, "you can only vote for real candidats");
@@ -72,7 +68,7 @@ contract Voting{
         return true;
     }
     
-    function vote(address _candidat, uint _value) public checkVote returns(bool sucess){
+    function vote(address _candidat, uint _value) public returns(bool sucess){
         require(state == State.STARTED, "you can only vote duting the voting period");
         require(voters[msg.sender].alreadyVoted == false, "you can't vote");
         require(voters[msg.sender].voteBalance >= _value, "not enought vote balance");
@@ -92,6 +88,7 @@ contract Voting{
         
         candidats[_addr].name = _name;
         candidats[_addr].exist = true;
+        candidatsAddress.push(_addr);
         
         return true;
     }
